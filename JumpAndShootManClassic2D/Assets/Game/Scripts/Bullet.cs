@@ -16,10 +16,12 @@ public class Bullet : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        
-        if (col.gameObject.tag == "Environment")
+
+        if (col.gameObject.tag == "Environment" || col.gameObject.tag == "Floor" || col.gameObject.tag == "Ceiling" || col.gameObject.tag == "Wall")
         {
             gameObject.SetActive(false);
         }
+
+  
     }
 }

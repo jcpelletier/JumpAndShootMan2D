@@ -7,6 +7,7 @@ public class PlayerControl : MonoBehaviour {
     public int playerId = 0; // The Rewired player id of this character
     private Player player; // The Rewired player
     public Rigidbody2D bulletPrefab;
+    public Animator animator;
 
     public int movethrust = 20;
     public int jumpthrust = 10;
@@ -25,8 +26,11 @@ public class PlayerControl : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+
         //rb.AddForce(transform.right * movethrust * player.GetAxis("Move")); // move left and right
         rb.velocity = new Vector2(player.GetAxis("Move")*5, gameObject.GetComponent<Rigidbody2D>().velocity.y);
+        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.magnitude));
+        
 
         if (player.GetAxis("Move") == 0)
         {
@@ -46,7 +50,7 @@ public class PlayerControl : MonoBehaviour {
         {
             Debug.Log("shoot");
             Rigidbody2D clone;
-            
+            animator.SetTrigger("Shoot");
             clone = Instantiate(bulletPrefab, transform.position, transform.rotation) as Rigidbody2D;
             
             if (gameObject.GetComponent<SpriteRenderer>().flipX)
@@ -75,7 +79,7 @@ public class PlayerControl : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Environment")
+        if (col.gameObject.tag == "Environment" || col.gameObject.tag == "Floor")
         {
             canjump = true;
         }
